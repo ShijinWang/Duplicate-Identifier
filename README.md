@@ -15,4 +15,5 @@ Duplicate Data Identifier is a desktop application developed using Python Pandas
 
 
 Supervisor: Dr. XIANGYUN LU (XJTLU IBSS) 卢祥匀博士，（西交利物浦大学西浦国际商学院）
+
 Authors: SHIJIN WANG (XJTLU IBSS) 王诗进（西交利物浦大学西浦国际商学院）, MUYANG HE(XJTLU SAT) 何沐洋（西交利物浦大学智能工程学院）.
