@@ -12,3 +12,7 @@ Duplicate Data Identifier is a desktop application developed using Python Pandas
 	•	Process multiple Excel files in batches.
 	•	Automatically categorize and output duplicate and non-duplicate data based on a user-specified unique identifier column.
 	•	Support for custom naming of output files.
+
+
+Supervisor: Dr. XIANGYUN LU (XJTLU IBSS) 
+Authors: SHIJIN WANG (XJTLU IBSS), MUYANG HE(XJTLU SAT).
