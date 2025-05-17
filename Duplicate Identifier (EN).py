@@ -179,18 +179,45 @@ class DuplicateDataIdentifierApp:
         if columns_set:
             self.unique_identifier_combobox.set(next(iter(columns_set)))
 
+    # 在文件读取逻辑中添加格式验证
     def extract_columns_from_file(self, file_path):
         columns_set = set()
         try:
+            # 新增：文件格式验证
+            if not file_path.lower().endswith(('.xlsx', '.csv')):
+                raise ValueError(f"Unsupported file format: {os.path.splitext(file_path)[1]}")
+
             header_row_index = self.header_row.get() - 1
+
+            # 新增：头行索引合法性验证
             if header_row_index < 0:
-                messagebox.showerror("Error", "Header row cannot be negative. Please check your input.")
-                return columns_set
-            df_example = pd.read_excel(file_path, header=header_row_index)
+                raise ValueError("Header row cannot be less than 1.")
+
+            # 新增：分格式读取文件
+            if file_path.lower().endswith('.csv'):
+                df_example = pd.read_csv(file_path, header=header_row_index)
+            else:
+                df_example = pd.read_excel(file_path, header=header_row_index)
+
+            # 新增：空文件检查
+            if df_example.empty:
+                raise ValueError("The selected file is empty.")
+
+            # 保留原有逻辑
             columns = df_example.columns.tolist()
             columns_set.update(columns)
+
         except Exception as e:
-            messagebox.showerror("Error", f"Error reading Excel column names: {e}")
+            # 改进错误提示（具体原因 + 解决方案）
+            if "Unsupported file format" in str(e):
+                messagebox.showerror("Error", f"Unsupported file format. Please select .xlsx or .csv files.")
+            elif "Header row" in str(e):
+                messagebox.showerror("Error", f"Invalid header row: {str(e)}")
+            elif "empty" in str(e):
+                messagebox.showerror("Error", "The selected file contains no data.")
+            else:
+                messagebox.showerror("Error", f"Failed to read file: {str(e)}")
+
         return columns_set
 
     def process_single_file(self):
@@ -279,6 +306,8 @@ class DuplicateDataIdentifierApp:
             messagebox.showinfo("Success", "Processing completed! Please check the output folder.")
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred during processing: {e}")
+
+
 
 
 if __name__ == "__main__":
